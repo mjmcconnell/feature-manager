@@ -1,12 +1,8 @@
 package internal
 
-import (
-	"github.com/labstack/echo/v4"
-)
-
 type Module interface {
 	Name() string
-	InitRoutes(e *echo.Echo)
+	InitRoutes(r *Router)
 }
 
 var Modules []func() Module

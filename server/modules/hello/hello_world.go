@@ -1,8 +1,6 @@
 package hello
 
 import (
-	"github.com/labstack/echo/v4"
-
 	"github.com/mjmcconnell/feature-manager/internal"
 )
 
@@ -20,6 +18,6 @@ func (m HelloModule) Name() string {
 	return "Hello Module"
 }
 
-func (m HelloModule) InitRoutes(e *echo.Echo) {
-	e.GET("/hello", helloHandler)
+func (m HelloModule) InitRoutes(r *internal.Router) {
+	r.GET("/hello", helloHandler)
 }
