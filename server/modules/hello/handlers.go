@@ -7,5 +7,5 @@ import (
 )
 
 func helloHandler(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello Module")
+	return c.String(http.StatusOK, "Hello from the hello module")
 }

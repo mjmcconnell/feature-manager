@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./docker/serverdev.Dockerfile
+    image: server:dev
+    volumes:
+      - ./server/go.mod:/workspace/go.mod
+      - ./server/go.sum:/workspace/go.sum
+      - ./server/cmd:/workspace/cmd
+      - ./server/internal:/workspace/internal
+      - ./server/modules:/workspace/modules
+    container_name: user-service
+    ports:
+      - 8080:8080
+    expose:
+      - 0.0.0.0:8080
