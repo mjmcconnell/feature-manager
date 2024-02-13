@@ -2,11 +2,34 @@
 
 This project is setup as a sample project of golang based architecture rather than an actual application purpose.
 
-The aim is to keep as much of the third-party libraries contained to specific modules or the internal package.
+One aim is to keep as much of the third-party libraries contained to specific modules or the internal package.
 The developer should have the ability to swap out any of the third-party packages without impacting any of the other services.
 
 For example, currently the `echo` package is used to handle http routing and middleware.
 As it is only directly references with the `internal/routes.go` file, it can be swapped out of another provider, and as long as the `Router` methods do not change, modules that use http do not need to be updated.
+
+Another aim is to build out functionality in a modular fashion. This is achived by keeping any common functionality within the `internal/` package, and then keeping functional specific code within the modules.
+
+For example, a module that adds functionality for a to-do list, will define all routes and models within the module, but leverage the internal package for the http router, and model driver
+
+## Adding a new module
+
+All modules should live under the `modules/` directory.
+
+The module should contain a file matching the name of the module at the root of the module, which impliments the module interface.
+
+For an example, check out `modules/hello/hello.go`
+
+To add the module into the app, simply add the reference into the `imports` section of `cmd/feature-manager/main.go`
+
+Example
+
+    import (
+        "github.com/mjmcconnell/feature-manager/internal"
+        // modules
+        ....
+        _ "github.com/mjmcconnell/feature-manager/modules/my-new-module"
+    )
 
 ## Local development
 
