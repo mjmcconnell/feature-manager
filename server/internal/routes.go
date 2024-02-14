@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+
+	"github.com/mjmcconnell/feature-manager/internal/middleware"
 )
 
 type Router struct {
@@ -12,6 +14,7 @@ type Router struct {
 
 func NewRouter() *Router {
 	e := echo.New()
+	e.Use(middleware.NewLogMiddleware())
 	r := &Router{e}
 
 	initModuleRoutes(r)
