@@ -20,4 +20,5 @@ func (m HelloModule) Name() string {
 
 func (m HelloModule) InitRoutes(r *internal.Router) {
 	r.GET("/hello", helloHandler)
+	r.GET("/goodbye", goodbyeHandler)
 }
