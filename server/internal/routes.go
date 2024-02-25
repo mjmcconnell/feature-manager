@@ -14,6 +14,7 @@ type Router struct {
 
 func NewRouter() *Router {
 	e := echo.New()
+	e.Use(middleware.NewHttpMetrics)
 	e.Use(middleware.NewLogMiddleware())
 	r := &Router{e}
 
