@@ -8,5 +8,7 @@ import (
 
 func main() {
 	router := internal.NewRouter()
-	router.Start("0.0.0.0:8080")
+	router.StartServer()
+
+	internal.InitModules(router)
 }

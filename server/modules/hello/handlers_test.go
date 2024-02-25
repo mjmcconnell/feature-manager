@@ -11,19 +11,33 @@ import (
 
 func Test_handlerGetRequests(t *testing.T) {
 	testCases := map[string]struct {
-		url     string
-		handler func(c echo.Context) error
-		resp    string
+		url       string
+		targetURL string
+		handler   func(c echo.Context) error
+		resp      string
+		status    int
 	}{
 		"Test get request on hello handler": {
-			url:     "/hello",
-			handler: helloHandler,
-			resp:    "Hello from the hello module",
+			url:       "/hello",
+			targetURL: "/hello",
+			handler:   helloHandler,
+			resp:      "Hello from the hello module",
+			status:    200,
+		},
+		"Test get request on hello handler with bad path": {
+			url:       "/hello",
+			targetURL: "/hi",
+			handler:   helloHandler,
+			resp: `{"message":"Not Found"}
+`,
+			status: 404,
 		},
 		"Test get request on goodbye handler": {
-			url:     "/goodbye",
-			handler: goodbyeHandler,
-			resp:    "Goodbye from the hello module",
+			url:       "/goodbye",
+			targetURL: "/goodbye",
+			handler:   goodbyeHandler,
+			resp:      "Goodbye from the hello module",
+			status:    200,
 		},
 	}
 
@@ -34,13 +48,13 @@ func Test_handlerGetRequests(t *testing.T) {
 			e.GET(tc.url, tc.handler)
 
 			// act
-			req := httptest.NewRequest(http.MethodGet, tc.url, nil)
-			rec := httptest.NewRecorder()
-			e.ServeHTTP(rec, req)
+			w := httptest.NewRecorder()
+			r := httptest.NewRequest(http.MethodGet, tc.targetURL, nil)
+			e.ServeHTTP(w, r)
 
 			// assert
-			assert.Equal(t, 200, rec.Code)
-			assert.Equal(t, tc.resp, rec.Body.String())
+			assert.Equal(t, tc.status, w.Code)
+			assert.Equal(t, tc.resp, w.Body.String())
 		})
 	}
 }

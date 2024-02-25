@@ -18,7 +18,7 @@ func (m HelloModule) Name() string {
 	return "Hello Module"
 }
 
-func (m HelloModule) InitRoutes(r *internal.Router) {
+func (m HelloModule) Init(r *internal.Router) {
 	r.GET("/hello", helloHandler)
 	r.GET("/goodbye", goodbyeHandler)
 }
